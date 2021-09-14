@@ -23,7 +23,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'sumant-dockerhub'
-        repository: 'deshpandesumantj/azure-devops-sumant/currency-exchange-devops'
+        repository: 'deshpandesumantj/azure-devops-sumant'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: '$(tag)'
