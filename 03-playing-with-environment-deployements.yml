@@ -6,15 +6,36 @@
 trigger:
 - main
 
-strategy:
- matrix:
-   linux:
-     operatingSystem: 'ubuntu-latest'
-   mac:
-     operatingSystem: 'macos-latest'
+# strategy:
+#  matrix:
+#    linux:
+#      operatingSystem: 'ubuntu-latest'
+#    mac:
+#      operatingSystem: 'macos-latest'
 pool:
   vmImage: $(operatingSystem)
 
-steps:
-- script: echo Hello, world $(operatingSystem)!
-  displayName: 'Run a one-line script'
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - bash: echo Build job
+- stage: DevDeploy
+  jobs:
+  - deployment:
+    environment: Dev 
+    strategy:
+     runOnce:
+       deploy:
+         steps:
+           - bash: echo this is first pipeline for Dev
+- stage: QADeploy
+  jobs:
+  - deployment:
+    environment: QA 
+    strategy:
+     runOnce:
+       deploy:
+         steps:
+           - bash: echo this is first pipeline for QA
