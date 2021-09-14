@@ -22,5 +22,19 @@ jobs:
       echo See https://aka.ms/yaml
     displayName: 'Run a multi-line script'
 - job: job2
+  dependsOn: job1
   steps:
     - script: echo job2
+  displayName: 'Job2 Script'
+- job: job3
+  dependsOn: job2
+  steps:
+    - script: echo Hello job3
+  displayName: 'Job3 Script'
+- job: job4
+  dependsOn: 
+  - job2
+  - job3
+  steps:
+    - script: echo Hello job4
+  displayName: 'Job4 Script'
