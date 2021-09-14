@@ -15,26 +15,32 @@ stages:
   - job: FirstJob
     steps:
     - bash: echo build FirstJob
-  - job: SecondJob
-    steps:
-    - bash: echo build SecondJob 
-- stage: DevDeploy
-  dependsOn: build
-  jobs:
-  - job: DevDeploy
-    steps:
-    - bash: echo build DevDeploy
-- stage: QADeploy
-  dependsOn: build
-  jobs:
-  - job: QADeploy
-    steps:
-    - bash: echo build QADeploy
-- stage: ProdDeploy
-  dependsOn:
-    - DevDeploy
-    - QADeploy
-  jobs:
-  - job: ProdDeploy
-    steps:
-    - bash: echo build ProdDeploy
+    - bash: echo ls -R $(System.DefaultWorkingDirectory)
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: |
+          **/*.yaml
+          **/*.tf
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - bash: echo ls -R $(Build.ArtifactStagingDirectory)
+# - stage: DevDeploy
+#   dependsOn: build
+#   jobs:
+#   - job: DevDeploy
+#     steps:
+#     - bash: echo build DevDeploy
+# - stage: QADeploy
+#   dependsOn: build
+#   jobs:
+#   - job: QADeploy
+#     steps:
+#     - bash: echo build QADeploy
+# - stage: ProdDeploy
+#   dependsOn:
+#     - DevDeploy
+#     - QADeploy
+#   jobs:
+#   - job: ProdDeploy
+#     steps:
+#     - bash: echo build ProdDeploy
