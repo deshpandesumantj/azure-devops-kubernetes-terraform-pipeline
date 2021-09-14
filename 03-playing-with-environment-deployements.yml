@@ -38,4 +38,4 @@ stages:
      runOnce:
        deploy:
          steps:
-           - bash: echo this is first pipeline for QA
+           - bash: echo this is first pipeline for QA - Modify env
